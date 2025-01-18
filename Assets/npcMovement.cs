@@ -10,6 +10,7 @@ public class npcMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Transform currentPoint;
     public float speed;
+    public LayerMask groundLayer;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -24,7 +25,14 @@ public class npcMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RaycastHit hit;
+        Vector2 rayOrigin = transform.position;
+        Vector2 rayDirection = Vector2.up;
+        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, 100, groundLayer);
+
+     
+        if(hit.collider != null){
+            Debug.Log("hit at " + hit.distance);
+        }
         if(Direction == "Left" && Vector2.Distance(transform.position, WaypointL) < 0.5)
         {
             Direction = "Right";
@@ -35,36 +43,19 @@ public class npcMovement : MonoBehaviour
             Direction = "Left";
             
         }
-        if(Direction == "Right" && !(Physics.Raycast(transform.position, -Vector3.up, out hit, 100.0f)))
+        if(Direction == "Right" && !(hit.collider != null))
         {
             rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);      
         }
-        if(Direction == "Left" && !(Physics.Raycast(transform.position, -Vector3.up, out hit, 100.0f)))
+        if(Direction == "Left" && !(hit.collider != null))
         {
             rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
         }
-
-
-    // See Order of Execution for Event Functions for information on FixedUpdate() and Update() related to physics queries
-
-
-
-        // Does the ray intersect any objects excluding the player layer
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
-
-        { 
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow); 
-            Debug.Log("Did Hit"); 
-        }
         else
-        { 
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white); 
-            Debug.Log("Did not Hit"); 
-        }
-
+        {Debug.Log("hit nothing");}
     
 
-        if (Physics.Raycast(transform.position, -Vector3.up, out hit))
+        if (hit.collider != null)
         {
             if(hit.distance>.5)
             {
