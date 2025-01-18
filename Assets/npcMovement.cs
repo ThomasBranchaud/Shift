@@ -10,7 +10,7 @@ public class npcMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Transform currentPoint;
     public float speed;
-    public LayerMask groundLayer;
+    public LayerMask playerLayer;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -27,7 +27,7 @@ public class npcMovement : MonoBehaviour
     {
         Vector2 rayOrigin = transform.position;
         Vector2 rayDirection = Vector2.up;
-        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, 100, groundLayer);
+        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, 100, playerLayer);
 
      
         if(hit.collider != null){
