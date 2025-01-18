@@ -43,18 +43,22 @@ public class npcMovement : MonoBehaviour
             Direction = "Left";
             
         }
-        if(Direction == "Right" && !(hit.collider != null))
+        if(Direction == "Right")
         {
             rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);      
         }
-        if(Direction == "Left" && !(hit.collider != null))
+        if(Direction == "Left" )
         {
             rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
         }
         else
         {Debug.Log("hit nothing");}
-    
 
+        if(hit != null){
+            
+        }
+    
+/*
         if (hit.collider != null)
         {
             if(hit.distance>.5)
@@ -73,7 +77,7 @@ public class npcMovement : MonoBehaviour
                 //Attack
             }
         }
-        
+        */
     
 
 }
