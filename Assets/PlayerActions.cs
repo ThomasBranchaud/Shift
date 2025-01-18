@@ -2,20 +2,31 @@ using UnityEngine;
 
 public class PlayerActions : MonoBehaviour
 {
-    public float blinkDist = 0.25f;
+    private static int BLINK_COOLDOWN = 240;
+    public static float BLINK_DIST = 1.5f;
+
+
+    public bool grounded;
+
+    public Transform groundCheck;
+    public float groundCheckRadius = 0.2f; 
+    public LayerMask groundLayer;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         
     }
 
+    int cooldown = 0;
     // Update is called once per frame
     void Update()
     {
-        /* BLINK TEMPORARILY DISABLED
+
+        grounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
         // blink
-        if(Input.GetKey(KeyCode.LeftShift)){
+        if(Input.GetKey(KeyCode.LeftShift) && cooldown == 0){
             if(Input.GetKey(KeyCode.W)){
                 // blink up
                 blink("up");
@@ -29,24 +40,27 @@ public class PlayerActions : MonoBehaviour
                 // blink left
                 blink("left");
             }
+            cooldown = BLINK_COOLDOWN;
+        }
+        if(cooldown > 0){
+            cooldown --;
         }
 
-        */
     }
 
 
     void blink(string direction){
         if(direction == "up" || direction == "down"){
-            float moveAmt = -blinkDist;
+            float moveAmt = -BLINK_DIST;
             if(direction == "up"){
-                moveAmt = blinkDist;
+                moveAmt = BLINK_DIST;
             }
 
             transform.position = (Vector2)transform.position + new Vector2(0f, moveAmt);
         }else {
-            float moveAmt = -blinkDist;
+            float moveAmt = -BLINK_DIST;
             if(direction == "right"){
-                moveAmt = blinkDist;
+                moveAmt = BLINK_DIST;
             }
 
             transform.position = (Vector2)transform.position + new Vector2(moveAmt, 0f);
