@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     public Transform groundCheck;
     public float groundCheckRadius = 0.2f; 
     public LayerMask groundLayer;
+    public LayerMask platformLayer;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -33,11 +34,14 @@ public class PlayerMovement : MonoBehaviour
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
         }
 
-        grounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);        
-
+        grounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer) 
+                    || Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, platformLayer);
         if(Input.GetKeyDown(KeyCode.W) && grounded){
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpHeight);
             grounded = false;
+        }
+        if(Input.GetKeyDown(KeyCode.S)){
+            
         }
     }
 }
