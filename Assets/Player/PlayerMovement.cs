@@ -79,6 +79,13 @@ public class PlayerMovement : MonoBehaviour
             Physics2D.IgnoreLayerCollision(PLAYER_LAYER, PLATFORM_LAYER, true);
         }
     }
+
+    public void OnTriggerEnter2D(Collider2D other){
+        UnityEngine.Debug.Log("Here");
+        if (other.gameObject.CompareTag("Elevator")){
+            UnityEngine.Debug.Log("Level End");
+        }
+    }
     
 }
 
