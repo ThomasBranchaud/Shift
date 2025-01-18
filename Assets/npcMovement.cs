@@ -10,6 +10,7 @@ public class npcMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Transform currentPoint;
     public float speed;
+    public LayerMask groundLayer;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -24,6 +25,14 @@ public class npcMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Vector2 rayOrigin = transform.position;
+        Vector2 rayDirection = Vector2.up;
+        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, 100, groundLayer);
+
+     
+        if(hit.collider != null){
+            Debug.Log("hit at " + hit.distance);
+        }
         if(Direction == "Left" && Vector2.Distance(transform.position, WaypointL) < 0.5)
         {
             Direction = "Right";
@@ -34,34 +43,38 @@ public class npcMovement : MonoBehaviour
             Direction = "Left";
             
         }
-        if(Direction == "Right")
+        if(Direction == "Right" && !(hit.collider != null))
         {
             rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);      
         }
-        if(Direction == "Left")
+        if(Direction == "Left" && !(hit.collider != null))
         {
             rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
         }
+        else
+        {Debug.Log("hit nothing");}
+    
 
-       
+        if (hit.collider != null)
+        {
+            if(hit.distance>.5)
+            {
+                if(Direction == "Right")
+                {
+                rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
+                }
+                else if(Direction == "Left")
+                {
+                rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
+                }
+            }
+            else
+            {
+                //Attack
+            }
+        }
+        
+    
 
-     /*Vector2 point = currentPoint.position - transform.position;
-     if(currentPoint == WaypointR.transform)
-     { 
-        rb.linearVelocity = new Vector2(speed, 0);
-     }
-     else
-     {
-        rb.linearVelocity = new Vector2(-speed, 0);
-     }
-     if(Vector2.Distance(transform.position, currentPoint.position) < 0.5 && currentPoint == WaypointR.transform)
-     {
-        currentPoint = WaypointL.transform;
-     }   
-    if(Vector2.Distance(transform.position, currentPoint.position) < 0.5 && currentPoint == WaypointL.transform)
-     {
-        currentPoint = WaypointR.transform;
-     }   
-    }*/
 }
 }
