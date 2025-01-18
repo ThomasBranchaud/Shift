@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 89d08d583df185a4eb1bdd60f47c48e2
+guid: 426bb3e283830a74ea59d2cc56857b35
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2915846426270025723
-    second: FloorCornerDownWall1_scaled_5x_pngcrushed_0
+      213: 8953328814493081022
+    second: FloorCornerDown1_scaled_5x_pngcrushed_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: FloorCornerDownWall1_scaled_5x_pngcrushed_0
+      name: FloorCornerDown1_scaled_5x_pngcrushed_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 71
-        height: 71
+        width: 91
+        height: 91
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5083596cf15d887d0800000000000000
-      internalID: -2915846426270025723
+      spriteID: ebd1129be1d904c70800000000000000
+      internalID: 8953328814493081022
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      FloorCornerDownWall1_scaled_5x_pngcrushed_0: -2915846426270025723
+      FloorCornerDown1_scaled_5x_pngcrushed_0: 8953328814493081022
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
