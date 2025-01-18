@@ -10,10 +10,11 @@ public class npcMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Transform currentPoint;
     public float speed;
-    public LayerMask playerLayer;
+    public LayerMask mask;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        mask = LayerMask.GetMask("Player","Ground");
         Direction = "Right";
 
         rb = GetComponent<Rigidbody2D>();
@@ -25,22 +26,46 @@ public class npcMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         Vector2 rayOrigin = transform.position;
         Vector2 rayDirection = Vector2.right;
-        if(Direction == "Right")
+
+        // Set the ray direction based on the `Direction` variable
+        if (Direction == "Right")
         {
             rayDirection = Vector2.right;
         }
-        else if(Direction == "Left")
+        else if (Direction == "Left")
         {
             rayDirection = Vector2.left;
         }
-        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, 100, groundLayer);
+
+        // Perform the raycast
+        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, 100, mask);
+
+        if (hit.collider != null) // Check if anything was hit
+        {
+            if (hit.collider.CompareTag("Player")) // Check if the first hit object is a player
+            {
+                Debug.Log("HIT PLAYER");
+                GameObject Player = hit.collider.gameObject;
+                // Add logic for detecting the player here
+            }
+            else
+            {
+                Debug.Log("First object hit is not a player, it is: " + hit.collider.gameObject.name);
+            }
+        }
+        else
+        {
+            Debug.Log("No objects hit");
+        }
 
      
-        if(hit.collider != null){
+        /*if(hit.collider != null){
             Debug.Log("hit at " + hit.distance);
-        }
+            */
+        
         if(Direction == "Left" && Vector2.Distance(transform.position, WaypointL) < 0.5)
         {
             Direction = "Right";
@@ -51,7 +76,7 @@ public class npcMovement : MonoBehaviour
             Direction = "Left";
             
         }
-        if(Direction == "Right")
+        if(Direction == "Right" )
         {
             rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);      
         }
@@ -59,12 +84,7 @@ public class npcMovement : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
         }
-        else
-        {Debug.Log("hit nothing");}
-
-        if(hit != null){
-
-        }
+        
     
 /*
         if (hit.collider != null)
@@ -87,6 +107,6 @@ public class npcMovement : MonoBehaviour
         }
         */
     
-
+*/
 }
 }
