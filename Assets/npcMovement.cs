@@ -17,7 +17,7 @@ public class npcMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        enemyHealth=5;
+        enemyHealth = 5;
         mask = LayerMask.GetMask("Player","Ground");
         Direction = "Right";
 
