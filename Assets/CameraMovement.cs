@@ -2,21 +2,25 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-
+    public float smoothSpeed = 1.5f;
+    public float threshold = 2f;
     public GameObject player;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
+    private Vector3 lastPlayerPosition;
+    public bool useSmoothMovement = false;
+
     void Start()
     {
-        
+
     }
 
-    
-    // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
+        
+        
         Vector3 playerPosition = new Vector3(player.transform.position.x, player.transform.position.y, this.gameObject.transform.position.z);
-
         this.gameObject.transform.position = new Vector3(playerPosition.x, playerPosition.y, playerPosition.z);
+        
 
     }
     
