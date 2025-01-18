@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 46fbd4d76d851de4cb2bdd48c9a94939
+guid: c09e8fefd1f703845b6d7092d360db5c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2574892086920757287
-    second: FloorWallDown3_scaled_5x_pngcrushed_0
+      213: -5365193582386514089
+    second: Wall1_scaled_5x_pngcrushed_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: FloorWallDown3_scaled_5x_pngcrushed_0
+      name: Wall1_scaled_5x_pngcrushed_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 69
         y: 0
-        width: 160
-        height: 71
+        width: 22
+        height: 160
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9dfbf101a45244cd0800000000000000
-      internalID: -2574892086920757287
+      spriteID: 75775a2ecd00b85b0800000000000000
+      internalID: -5365193582386514089
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      FloorWallDown3_scaled_5x_pngcrushed_0: -2574892086920757287
+      Wall1_scaled_5x_pngcrushed_0: -5365193582386514089
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
