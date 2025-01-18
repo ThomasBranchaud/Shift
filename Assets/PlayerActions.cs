@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class PlayerActions : MonoBehaviour
 {
-    private static int BLINK_COOLDOWN = 240;
-    public static float BLINK_DIST = 1.5f;
+    private static int BLINK_COOLDOWN = 1;
+    public static float BLINK_DIST = 2.5f;
 
 
     public bool grounded;
@@ -15,55 +15,102 @@ public class PlayerActions : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        QualitySettings.vSyncCount = 0; // Set vSyncCount to 0 so that using .targetFrameRate is enabled.
+        Application.targetFrameRate = 60;
     }
 
-    int cooldown = 0;
+    public int cooldown = 0;
+    bool blinkedInAir = false;
     // Update is called once per frame
     void Update()
     {
 
         grounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-
+        if(grounded){
+            blinkedInAir = false;
+        }
         // blink
         if(Input.GetKey(KeyCode.LeftShift) && cooldown == 0){
-            if(Input.GetKey(KeyCode.W)){
-                // blink up
-                blink("up");
-            }else if(Input.GetKey(KeyCode.S)){
-                // blink down
-                blink("down");
-            }else if(Input.GetKey(KeyCode.D)){
-                // blink right
-                blink("right");
-            }else if(Input.GetKey(KeyCode.A)){
-                // blink left
-                blink("left");
+            if(!blinkedInAir){
+                if(Input.GetKey(KeyCode.A)){
+                    // blink left
+                    blinkLeft();
+                }else if(Input.GetKey(KeyCode.D)){
+                    // blink right
+                    blinkRight();
+                }else if(Input.GetKey(KeyCode.W)){
+                    // blink up
+                    blinkUp();
+                }else if(Input.GetKey(KeyCode.S)){
+                    // blink down
+                    blinkDown();
+                }
+                cooldown = BLINK_COOLDOWN * 60;
             }
-            cooldown = BLINK_COOLDOWN;
+
+            if(!grounded){
+                blinkedInAir = true;
+            }else {
+                blinkedInAir = false;
+            }
         }
+        
+    
         if(cooldown > 0){
-            cooldown --;
+        cooldown --;
         }
 
     }
 
+    void blinkUp(){
+        Vector2 rayOrigin = transform.position;
+        Vector2 rayDirection = Vector2.up;
+        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, BLINK_DIST, groundLayer);
 
-    void blink(string direction){
-        if(direction == "up" || direction == "down"){
-            float moveAmt = -BLINK_DIST;
-            if(direction == "up"){
-                moveAmt = BLINK_DIST;
-            }
-
-            transform.position = (Vector2)transform.position + new Vector2(0f, moveAmt);
-        }else {
-            float moveAmt = -BLINK_DIST;
-            if(direction == "right"){
-                moveAmt = BLINK_DIST;
-            }
-
-            transform.position = (Vector2)transform.position + new Vector2(moveAmt, 0f);
+        float moveAmt = BLINK_DIST;
+        if(hit.collider != null){
+            moveAmt = hit.distance;
         }
+
+        transform.position = (Vector2)transform.position + new Vector2(0f, moveAmt);
+    }
+
+    void blinkDown(){
+        Vector2 rayOrigin = transform.position;
+        Vector2 rayDirection = Vector2.down;
+        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, BLINK_DIST, groundLayer);
+
+        float moveAmt = -BLINK_DIST;
+        if(hit.collider != null){
+            moveAmt = -hit.distance;
+        }
+
+        transform.position = (Vector2)transform.position + new Vector2(0f, moveAmt);
+    }
+
+    void blinkRight(){
+        Vector2 rayOrigin = transform.position;
+        Vector2 rayDirection = Vector2.right;
+        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, BLINK_DIST, groundLayer);
+
+        float moveAmt = BLINK_DIST;
+        if(hit.collider != null){
+            moveAmt = hit.distance;
+        }
+
+        transform.position = (Vector2)transform.position + new Vector2(moveAmt, 0f);
+    }
+
+    void blinkLeft(){
+        Vector2 rayOrigin = transform.position;
+        Vector2 rayDirection = Vector2.left;
+        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, BLINK_DIST, groundLayer);
+
+        float moveAmt = -BLINK_DIST;
+        if(hit.collider != null){
+            moveAmt = -hit.distance;
+        }
+
+        transform.position = (Vector2)transform.position + new Vector2(moveAmt, 0f);
     }
 }
