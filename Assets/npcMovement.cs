@@ -24,6 +24,7 @@ public class npcMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        RaycastHit hit;
         if(Direction == "Left" && Vector2.Distance(transform.position, WaypointL) < 0.5)
         {
             Direction = "Right";
@@ -34,34 +35,55 @@ public class npcMovement : MonoBehaviour
             Direction = "Left";
             
         }
-        if(Direction == "Right")
+        if(Direction == "Right" && !(Physics.Raycast(transform.position, -Vector3.up, out hit, 100.0f)))
         {
             rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);      
         }
-        if(Direction == "Left")
+        if(Direction == "Left" && !(Physics.Raycast(transform.position, -Vector3.up, out hit, 100.0f)))
         {
             rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
         }
 
-       
 
-     /*Vector2 point = currentPoint.position - transform.position;
-     if(currentPoint == WaypointR.transform)
-     { 
-        rb.linearVelocity = new Vector2(speed, 0);
-     }
-     else
-     {
-        rb.linearVelocity = new Vector2(-speed, 0);
-     }
-     if(Vector2.Distance(transform.position, currentPoint.position) < 0.5 && currentPoint == WaypointR.transform)
-     {
-        currentPoint = WaypointL.transform;
-     }   
-    if(Vector2.Distance(transform.position, currentPoint.position) < 0.5 && currentPoint == WaypointL.transform)
-     {
-        currentPoint = WaypointR.transform;
-     }   
-    }*/
+    // See Order of Execution for Event Functions for information on FixedUpdate() and Update() related to physics queries
+
+
+
+        // Does the ray intersect any objects excluding the player layer
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
+
+        { 
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow); 
+            Debug.Log("Did Hit"); 
+        }
+        else
+        { 
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white); 
+            Debug.Log("Did not Hit"); 
+        }
+
+    
+
+        if (Physics.Raycast(transform.position, -Vector3.up, out hit))
+        {
+            if(hit.distance>.5)
+            {
+                if(Direction == "Right")
+                {
+                rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
+                }
+                else if(Direction == "Left")
+                {
+                rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
+                }
+            }
+            else
+            {
+                //Attack
+            }
+        }
+        
+    
+
 }
 }
