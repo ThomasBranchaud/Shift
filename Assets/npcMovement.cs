@@ -26,7 +26,15 @@ public class npcMovement : MonoBehaviour
     void Update()
     {
         Vector2 rayOrigin = transform.position;
-        Vector2 rayDirection = Vector2.up;
+        Vector2 rayDirection = Vector2.right;
+        if(Direction == "Right")
+        {
+            rayDirection = Vector2.right;
+        }
+        else if(Direction == "Left")
+        {
+            rayDirection = Vector2.left;
+        }
         RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, 100, groundLayer);
 
      
