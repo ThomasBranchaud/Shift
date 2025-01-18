@@ -11,6 +11,7 @@ public class PlayerActions : MonoBehaviour
     public Transform groundCheck;
     public float groundCheckRadius = 0.2f; 
     public LayerMask groundLayer;
+    public LayerMask platformLayer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -25,12 +26,13 @@ public class PlayerActions : MonoBehaviour
     void Update()
     {
 
-        grounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        grounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer) 
+                    || Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, platformLayer);
         if(grounded){
             blinkedInAir = false;
         }
         // blink
-        if(Input.GetKey(KeyCode.LeftShift) && cooldown == 0){
+        if(Input.GetKey(KeyCode.Space) && cooldown == 0){
             if(!blinkedInAir){
                 if(Input.GetKey(KeyCode.A)){
                     // blink left
@@ -43,7 +45,9 @@ public class PlayerActions : MonoBehaviour
                     blinkUp();
                 }else if(Input.GetKey(KeyCode.S)){
                     // blink down
-                    blinkDown();
+                    if(!grounded){
+                        blinkDown();
+                    }
                 }
                 cooldown = BLINK_COOLDOWN * 60;
             }

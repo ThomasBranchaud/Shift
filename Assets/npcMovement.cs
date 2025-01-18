@@ -11,14 +11,19 @@ public class npcMovement : MonoBehaviour
     private Transform currentPoint;
     public float speed;
     public LayerMask mask;
+    public string state;
+    private GameObject Player;
+    public float enemyHealth;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        enemyHealth = 5;
         mask = LayerMask.GetMask("Player","Ground");
         Direction = "Right";
 
         rb = GetComponent<Rigidbody2D>();
         rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
+        state = "Patrol";
 
         
     }
@@ -26,8 +31,45 @@ public class npcMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(state == "Patrol")
+        {
+            Patrol();
+        }
+        if(state == "Attack")
+        {
+            Attack(Player);
+        }
         
-        Vector2 rayOrigin = transform.position;
+       
+
+}
+void Attack(GameObject Player )
+{
+
+    if((transform.position.x - Player.transform.position.x) > 1)
+        {
+            rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
+            Debug.Log("CHASING LEFT" + "Distance is" + (transform.position.x - Player.transform.position.x));
+
+        }
+    if( (Player.transform.position.x - transform.position.x) > 1)
+        {
+            rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
+            Debug.Log("CHASING RIGHT" + "Distance is" + (Player.transform.position.x - transform.position.x));
+            
+            
+        }
+    else if(Vector2.Distance(transform.position,Player.transform.position)<1 && Vector2.Distance(transform.position,Player.transform.position)>-1)
+    {
+    
+        Debug.Log("ATTACKKKKKK");
+    }
+    
+    
+}
+void Patrol()
+{
+     Vector2 rayOrigin = transform.position;
         Vector2 rayDirection = Vector2.right;
 
         // Set the ray direction based on the `Direction` variable
@@ -48,7 +90,8 @@ public class npcMovement : MonoBehaviour
             if (hit.collider.CompareTag("Player")) // Check if the first hit object is a player
             {
                 Debug.Log("HIT PLAYER");
-                GameObject Player = hit.collider.gameObject;
+                Player = hit.collider.gameObject;
+                state = "Attack";
                 // Add logic for detecting the player here
             }
             else
@@ -60,11 +103,6 @@ public class npcMovement : MonoBehaviour
         {
             Debug.Log("No objects hit");
         }
-
-     
-        /*if(hit.collider != null){
-            Debug.Log("hit at " + hit.distance);
-            */
         
         if(Direction == "Left" && Vector2.Distance(transform.position, WaypointL) < 0.5)
         {
@@ -85,28 +123,10 @@ public class npcMovement : MonoBehaviour
             rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
         }
         
-    
-/*
-        if (hit.collider != null)
+        if(state == "Attack")
         {
-            if(hit.distance>.5)
-            {
-                if(Direction == "Right")
-                {
-                rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
-                }
-                else if(Direction == "Left")
-                {
-                rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
-                }
-            }
-            else
-            {
-                //Attack
-            }
+            Attack(Player);
         }
-        */
-    
-*/
+    }
 }
-}
+
