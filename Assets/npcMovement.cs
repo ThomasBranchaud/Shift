@@ -27,13 +27,20 @@ public class npcMovement : MonoBehaviour
         if(Direction == "Left" && Vector2.Distance(transform.position, WaypointL) < 0.5)
         {
             Direction = "Right";
-            rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
 
         }
         if(Direction == "Right" && Vector2.Distance(transform.position, WaypointR) < 0.5)
         {
             Direction = "Left";
-            rb.linearVelocity = new Vector2(-speed,rb.linearVelocity.y);
+            
+        }
+        if(Direction == "Right")
+        {
+            rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);      
+        }
+        if(Direction == "Left")
+        {
+            rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
         }
 
        
