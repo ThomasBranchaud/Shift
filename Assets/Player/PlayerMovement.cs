@@ -51,11 +51,6 @@ public class PlayerMovement : MonoBehaviour
             grounded = false;
         }
         
-        if (Input.GetKeyDown(KeyCode.S) && Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, platformLayer))
-        {
-            // StartCoroutine(DropThroughPlatform());
-            transform.position = (Vector2)transform.position + new Vector2(0f, -0.6f);
-        }
         if (fanState != null){
             UnityEngine.Debug.Log("Not Stopping");
             switch (fanState){
