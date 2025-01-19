@@ -105,20 +105,6 @@ void Patrol()
     }
 }
 
-void Attack(GameObject Player)
-{
-    if (Vector2.Distance(transform.position, Player.transform.position) > 1)
-    {
-        float direction = (transform.position.x - Player.transform.position.x > 0) ? -1f : 1f;
-        rb.linearVelocity = new Vector2(direction * speed, rb.linearVelocity.y);
-    }
-    else
-    {
-        // Enemy is close enough to attack
-        rb.linearVelocity = Vector2.zero; // Stop movement to simulate attack
-        Debug.Log("Enemy attacking player!");
-    }
-}
 
 // Adjusted OnTriggerEnter2D for knockback
 void OnTriggerEnter2D(Collider2D collision)
