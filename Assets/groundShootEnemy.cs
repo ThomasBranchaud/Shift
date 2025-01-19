@@ -17,6 +17,7 @@ public class groundShootEnemy : MonoBehaviour
     public float projectileSpeed = 10f;
     public float delay = 0.2f;
     public float timer;
+    private SpriteRenderer spriteRenderer;
    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -27,6 +28,7 @@ public class groundShootEnemy : MonoBehaviour
 
         rb = GetComponent<Rigidbody2D>();
         rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         
     }
@@ -54,20 +56,24 @@ void attack(GameObject Player){
     if((transform.position.x - Player.transform.position.x) > 3)
         {
             rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
+            spriteRenderer.flipX = false;
             //Debug.Log("CHASING LEFT" + "Distance is" + (transform.position.x - Player.transform.position.x));
 
         }
         else if((transform.position.x - Player.transform.position.x) < 3 && (transform.position.x - Player.transform.position.x) > .1)
         {
             rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
+            spriteRenderer.flipX = false;
         }
     if( (Player.transform.position.x - transform.position.x) > 3)
         {
             rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
+            spriteRenderer.flipX = true;
         }
         else if((Player.transform.position.x - transform.position.x) < 3 && ((Player.transform.position.x - transform.position.x) > 0))
         {
             rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
+            spriteRenderer.flipX = true;
         }
 }
 
@@ -142,11 +148,13 @@ void patrol(){
         }
         if(Direction == "Right" )
         {
-            rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);      
+            rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);  
+            spriteRenderer.flipX = true;    
         }
         if(Direction == "Left" )
         {
             rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
+            spriteRenderer.flipX = false;
         }
         
         if(state == "Attack")
