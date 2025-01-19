@@ -17,7 +17,7 @@ public class AerialNPC : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        state = "Patrol";
+        state = "Search";
         mask = LayerMask.GetMask("Player","Ground");
         Direction = "Right";
 
@@ -30,9 +30,11 @@ public class AerialNPC : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(state == "Patrol"){
+        if(state == "Search"){
             patrol();
+            search();
         }else if(state == "Attack"){
+            patrol();
             attack(Player);
         }
     }
@@ -59,7 +61,9 @@ void patrol(){
         {
             rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
         }
+}
 
+void search(){
         Vector2 rayOrigin = transform.position;
         Vector2 rayDirection = Vector2.right;
 
@@ -74,11 +78,37 @@ void patrol(){
         }
 
         // Perform the raycast
-        CastSight(rayDirection,rayOrigin);
+        CastSight1(rayDirection,rayOrigin);
+        CastSight2(rayDirection,rayOrigin);
 }
-    void CastSight(Vector2 rayDirection,Vector2 rayOrigin){
+    void CastSight1(Vector2 rayDirection,Vector2 rayOrigin){
         for(float i=1f; i>=-1f; i-=0.1f){
             rayDirection = new Vector2(1f, i);
+            RaycastHit2D tempHit = Physics2D.Raycast(rayOrigin, rayDirection, 100, mask);
+            if (tempHit.collider != null) // Check if anything was hit
+        {
+            if (tempHit.collider.CompareTag("Player")) // Check if the first hit object is a player
+            {
+                Debug.Log("HIT PLAYER");
+                GameObject Player = tempHit.collider.gameObject;
+                state = "Attack";
+                attack(Player);
+                // Add logic for detecting the player here
+            }
+            else
+            {
+                Debug.Log("First object hit is not a player, it is: " + tempHit.collider.gameObject.name);
+            }
+        }
+        else
+        {
+            Debug.Log("No objects hit");
+        }
+        }
+    }
+    void CastSight2(Vector2 rayDirection,Vector2 rayOrigin){
+        for(float i=1f; i>=-1f; i-=0.1f){
+            rayDirection = new Vector2(-1f, i);
             RaycastHit2D tempHit = Physics2D.Raycast(rayOrigin, rayDirection, 100, mask);
             if (tempHit.collider != null) // Check if anything was hit
         {
