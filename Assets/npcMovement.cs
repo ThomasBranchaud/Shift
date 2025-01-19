@@ -17,7 +17,7 @@ public class npcMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        enemyHealth=5
+        enemyHealth = 5;
         mask = LayerMask.GetMask("Player","Ground");
         Direction = "Right";
 
@@ -49,20 +49,20 @@ void Attack(GameObject Player )
     if((transform.position.x - Player.transform.position.x) > 1)
         {
             rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
-            Debug.Log("CHASING LEFT" + "Distance is" + (transform.position.x - Player.transform.position.x));
+            //Debug.Log("CHASING LEFT" + "Distance is" + (transform.position.x - Player.transform.position.x));
 
         }
     if( (Player.transform.position.x - transform.position.x) > 1)
         {
             rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
-            Debug.Log("CHASING RIGHT" + "Distance is" + (Player.transform.position.x - transform.position.x));
+            //Debug.Log("CHASING RIGHT" + "Distance is" + (Player.transform.position.x - transform.position.x));
             
             
         }
     else if(Vector2.Distance(transform.position,Player.transform.position)<1 && Vector2.Distance(transform.position,Player.transform.position)>-1)
     {
     
-        Debug.Log("ATTACKKKKKK");
+        //Debug.Log("ATTACKKKKKK");
     }
     
     
@@ -89,19 +89,19 @@ void Patrol()
         {
             if (hit.collider.CompareTag("Player")) // Check if the first hit object is a player
             {
-                Debug.Log("HIT PLAYER");
+                //Debug.Log("HIT PLAYER");
                 Player = hit.collider.gameObject;
                 state = "Attack";
                 // Add logic for detecting the player here
             }
             else
             {
-                Debug.Log("First object hit is not a player, it is: " + hit.collider.gameObject.name);
+                //Debug.Log("First object hit is not a player, it is: " + hit.collider.gameObject.name);
             }
         }
         else
         {
-            Debug.Log("No objects hit");
+            //Debug.Log("No objects hit");
         }
         
         if(Direction == "Left" && Vector2.Distance(transform.position, WaypointL) < 0.5)
