@@ -18,6 +18,7 @@ public class AerialNPC : MonoBehaviour
     public float projectileSpeed = 10f;
     public float delay = 0.2f;
     public float timer;
+    public int enemyHealth = 3;
    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -168,4 +169,21 @@ void search(){
         }
         }
     }
+
+
+    void OnTriggerEnter2D(Collider2D collision)
+{
+    if (collision.gameObject.name == "Melee Box(Clone)")
+    {
+        Debug.Log("Enemy has been hit!");
+        enemyHealth--;
+
+        if (enemyHealth <= 0)
+        {
+            Debug.Log("Enemy has died!");
+            Destroy(this.gameObject, 0.125f);
+        }
+    }
+}
+
 }
