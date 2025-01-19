@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: -6205194697119430188, guid: fb3a14a4c8160ad468508421beb793e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -110,7 +110,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   state: 
-  Player: {fileID: 0}
+  Player: {fileID: 2133277223898971651, guid: ad233dd519566f046842ab01fe86408b, type: 3}
   projectilePrefab: {fileID: 7745238092228452549, guid: 57286332c4bd1244dbf5d17ef5f49ac2, type: 3}
   shootPoint: {fileID: 3407538975198784593}
   projectileSpeed: 10
