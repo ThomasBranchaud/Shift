@@ -12,7 +12,7 @@ public class Window : MonoBehaviour
     }
 
     void Update(){
-        if (Input.GetKeyDown(KeyCode.F)){
+        if (Input.GetKeyDown(KeyCode.LeftShift)){
             Shift();
         }
     }

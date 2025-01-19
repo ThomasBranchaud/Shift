@@ -13,7 +13,7 @@ public class Elevator : MonoBehaviour
     }
 
     void Update(){
-        if (Input.GetKeyDown(KeyCode.F)){
+        if (Input.GetKeyDown(KeyCode.LeftShift)){
             Shift();
         }
     }

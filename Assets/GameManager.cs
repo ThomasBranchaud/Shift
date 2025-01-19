@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
     public GameObject PlayerPrefab;
     public GameObject player;
     public List<GameObject> Objects = new List<GameObject>();
+    public List<GameObject> EnemyPrefabs;
 
     public List<GameObject> TerrainPrefabs;
     bool needPlayerStart = true;

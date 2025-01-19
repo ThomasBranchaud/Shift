@@ -127,6 +127,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 92956857059960550, guid: 2dd2fae214325824aadf02b37abff74c, type: 3}
+      propertyPath: EnemyPrefabs.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 92956857059960550, guid: 2dd2fae214325824aadf02b37abff74c, type: 3}
+      propertyPath: 'EnemyPrefabs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 4617047493969789335, guid: ba5eee63d9302364ba8bf3ca2f8d8351, type: 3}
+    - target: {fileID: 92956857059960550, guid: 2dd2fae214325824aadf02b37abff74c, type: 3}
+      propertyPath: 'EnemyPrefabs.Array.data[1]'
+      value: 
+      objectReference: {fileID: 4593970231614623823, guid: 6d9f6da9632025f479c1c914fe8f1982, type: 3}
+    - target: {fileID: 92956857059960550, guid: 2dd2fae214325824aadf02b37abff74c, type: 3}
+      propertyPath: 'EnemyPrefabs.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2946241670986868893, guid: f85926b00cd78eb499ce1c349766e795, type: 3}
     - target: {fileID: 3264759416880509906, guid: 2dd2fae214325824aadf02b37abff74c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
