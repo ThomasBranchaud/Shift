@@ -14,6 +14,7 @@ public class npcMovement : MonoBehaviour
     public string state;
     private GameObject Player;
     public float enemyHealth;
+    private bool isKnockedBack = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -30,19 +31,23 @@ public class npcMovement : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+{
+    // Only process movement logic if not in knockback state
+    if (!isKnockedBack)
     {
-        if(state == "Patrol")
+        if (state == "Patrol")
         {
             Patrol();
         }
-        if(state == "Attack")
+        else if (state == "Attack")
         {
             Attack(Player);
         }
         
        
-
+    }
 }
+
 void Attack(GameObject Player )
 {
 
@@ -62,79 +67,75 @@ void Attack(GameObject Player )
     else if(Vector2.Distance(transform.position,Player.transform.position)<1 && Vector2.Distance(transform.position,Player.transform.position)>-1)
     {
     
-      //  Debug.Log("ATTACKKKKKK");
+       // Debug.Log("ATTACKKKKKK");
     }
-    
-    
 }
+
+// Adjusted Patrol method
 void Patrol()
 {
-     Vector2 rayOrigin = transform.position;
-        Vector2 rayDirection = Vector2.right;
+    Vector2 rayOrigin = transform.position;
+    Vector2 rayDirection = (Direction == "Right") ? Vector2.right : Vector2.left;
 
-        // Set the ray direction based on the `Direction` variable
-        if (Direction == "Right")
-        {
-            rayDirection = Vector2.right;
-        }
-        else if (Direction == "Left")
-        {
-            rayDirection = Vector2.left;
-        }
+    RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, 100, mask);
 
-        // Perform the raycast
-        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, 100, mask);
-
-        if (hit.collider != null) // Check if anything was hit
-        {
-            if (hit.collider.CompareTag("Player")) // Check if the first hit object is a player
-            {
-                //Debug.Log("HIT PLAYER");
-                Player = hit.collider.gameObject;
-                state = "Attack";
-                // Add logic for detecting the player here
-            }
-            else
-            {
-                //Debug.Log("First object hit is not a player, it is: " + hit.collider.gameObject.name);
-            }
-        }
-        else
-        {
-            //Debug.Log("No objects hit");
-        }
-        
-        if(Direction == "Left" && Vector2.Distance(transform.position, WaypointL) < 0.5)
-        {
-            Direction = "Right";
-
-        }
-        if(Direction == "Right" && Vector2.Distance(transform.position, WaypointR) < 0.5)
-        {
-            Direction = "Left";
-            
-        }
-        if(Direction == "Right" )
-        {
-            rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);      
-        }
-        if(Direction == "Left" )
-        {
-            rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
-        }
-        
-        if(state == "Attack")
-        {
-            Attack(Player);
-        }
+    if (hit.collider != null && hit.collider.CompareTag("Player"))
+    {
+        Player = hit.collider.gameObject;
+        state = "Attack";
     }
 
+    if (Direction == "Left" && Vector2.Distance(transform.position, WaypointL) < 0.5)
+    {
+        Direction = "Right";
+    }
+    else if (Direction == "Right" && Vector2.Distance(transform.position, WaypointR) < 0.5)
+    {
+        Direction = "Left";
+    }
 
-    // GETTING HIT
-    void OnCollisionEnter2D(Collision2D collision){
-        if(collision.gameObject.name == "Melee Box(Clone)"){
-            Debug.Log("Enemy has been hit!");
+    // Set velocity based on direction only if not knocked back
+    if (Direction == "Right")
+    {
+        rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
+    }
+    else if (Direction == "Left")
+    {
+        rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
+    }
+}
+
+
+// Adjusted OnTriggerEnter2D for knockback
+void OnTriggerEnter2D(Collider2D collision)
+{
+    if (collision.gameObject.name == "Melee Box(Clone)" || collision.gameObject.name == "PlayerProjectile(Clone)")
+    {
+        Debug.Log("Enemy has been hit!");
+        enemyHealth--;
+
+        float enemyX = transform.position.x;
+        float playerX = collision.gameObject.transform.position.x;
+        Vector2 knockbackDirection = (enemyX - playerX > 0)
+            ? new Vector2(3.5f, 0.75f) // Knockback to the right
+            : new Vector2(-3.5f, 0.75f); // Knockback to the left
+
+        StartCoroutine(ApplyKnockback(knockbackDirection));
+
+        if (enemyHealth <= 0)
+        {
+            Debug.Log("Enemy has died!");
+            Destroy(this.gameObject, 0.125f);
         }
     }
+}
+
+IEnumerator ApplyKnockback(Vector2 knockback)
+{
+    isKnockedBack = true; // Temporarily disable other movement logic
+    rb.linearVelocity = knockback; // Apply knockback force
+    yield return new WaitForSeconds(0.2f); // Wait for knockback duration
+    isKnockedBack = false; // Resume normal behavior
+}
 }
 

@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - Elevator
+  - FanRight
+  - FanLeft
+  - FanUp
   layers:
   - Default
   - TransparentFX
@@ -15,8 +18,7 @@ TagManager:
   - Ground
   - Platform
   - FlyingEnemy
-  - 
-  - 
+  - GroundEnemy
   - 
   - 
   - 
