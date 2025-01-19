@@ -78,7 +78,6 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public void OnTriggerEnter2D(Collider2D other){
-        UnityEngine.Debug.Log("Here");
         if (other.gameObject.CompareTag("Elevator")){
             UnityEngine.Debug.Log("Level End");
         }
@@ -104,13 +103,11 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void meleeAttack(){
-        Debug.Log("attacking");
         Vector2 attackPos = (Vector2)transform.position + new Vector2(0.92f, 0f);
         if(facing == "left"){
             attackPos = (Vector2)transform.position + new Vector2(-0.92f, 0f);
         }
         GameObject atkbox = Instantiate(meleeBox, attackPos, Quaternion.identity);
-        Debug.Log(atkbox.name);
         Destroy(atkbox, 0.15f);
     }
 
