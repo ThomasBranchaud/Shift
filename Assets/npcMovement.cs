@@ -17,7 +17,7 @@ public class npcMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        enemyHealth = 5;
+        enemyHealth=5;
         mask = LayerMask.GetMask("Player","Ground");
         Direction = "Right";
 
@@ -62,7 +62,7 @@ void Attack(GameObject Player )
     else if(Vector2.Distance(transform.position,Player.transform.position)<1 && Vector2.Distance(transform.position,Player.transform.position)>-1)
     {
     
-        //Debug.Log("ATTACKKKKKK");
+      //  Debug.Log("ATTACKKKKKK");
     }
     
     
@@ -126,6 +126,14 @@ void Patrol()
         if(state == "Attack")
         {
             Attack(Player);
+        }
+    }
+
+
+    // GETTING HIT
+    void OnCollisionEnter2D(Collision2D collision){
+        if(collision.gameObject.name == "Melee Box(Clone)"){
+            Debug.Log("Enemy has been hit!");
         }
     }
 }

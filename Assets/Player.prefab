@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 5352158822223139514}
   - component: {fileID: 958301242809407626}
   - component: {fileID: 5927180466157226826}
-  - component: {fileID: 1532911183321258163}
   - component: {fileID: 2598801870086846107}
+  - component: {fileID: -8467453515870846514}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -165,7 +165,29 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &1532911183321258163
+--- !u!114 &2598801870086846107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2133277223898971651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f85259a13a54c0f44a2ff1425a68f151, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grounded: 0
+  groundCheck: {fileID: 8386766577835128509}
+  groundCheckRadius: 0.2
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  defau:
+    serializedVersion: 2
+    m_Bits: 1
+  cooldown: 0
+--- !u!114 &-8467453515870846514
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -185,32 +207,13 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  platformLayer:
+  defau:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 1
+  facing: 
+  inMelee: 1
+  meleeBox: {fileID: 2210717186801913536, guid: 86afd7e4a14f84a4ca16d3e12e66167c, type: 3}
   v1: {x: 0, y: 0}
---- !u!114 &2598801870086846107
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2133277223898971651}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f85259a13a54c0f44a2ff1425a68f151, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  grounded: 0
-  groundCheck: {fileID: 8386766577835128509}
-  groundCheckRadius: 0.2
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  platformLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  cooldown: 0
 --- !u!1 &2174734701543372038
 GameObject:
   m_ObjectHideFlags: 0
