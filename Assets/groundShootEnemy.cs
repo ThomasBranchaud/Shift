@@ -1,153 +1,166 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class GroundShootEnemy : MonoBehaviour
-{
-    public Vector2 WaypointL;
+public class groundShootEnemy : MonoBehaviour
+{   public Vector2 WaypointL;
     public Vector2 WaypointR;
-    public float speed;
-    public GameObject Player;
-    public GameObject projectilePrefab;
-    public Transform shootPoint;
-    public float projectileSpeed = 10f;
-    public float attackDelay = 0.2f;
-    public int enemyHealth = 3;
-    public LayerMask mask;
-
+    public string Direction;
     private Rigidbody2D rb;
-    private EnemyState state = EnemyState.Patrol;
-    private float attackTimer = 0f;
-    private bool isKnockedBack = false;
-    private string direction = "Right";
+    private Transform currentPoint;
+    public float speed;
+    public LayerMask mask;
+    public string state;
+    public GameObject Player;
+    public GameObject projectilePrefab; // The projectile prefab to instantiate
+    public Transform shootPoint;       // The point from which the projectile is fired
+    public float projectileSpeed = 10f;
+    public float delay = 0.2f;
+    public float timer;
     private SpriteRenderer spriteRenderer;
-
-    private enum EnemyState { Patrol, Attack }
-
+   
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        state = "Patrol";
+        mask = LayerMask.GetMask("Player","Ground");
+        Direction = "Right";
+
         rb = GetComponent<Rigidbody2D>();
-        mask = LayerMask.GetMask("Player", "Ground");
-        SetDirection(direction);
+        rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        
     }
 
+    // Update is called once per frame
     void Update()
     {
-        if (isKnockedBack) return;
+        if(state == "Patrol"){
+            patrol();
 
-        switch (state)
-        {
-            case EnemyState.Patrol:
-                Patrol();
-                break;
-            case EnemyState.Attack:
-                Attack(Player);
-                break;
+        }else if(state == "Attack"){
+
+            attack(Player);
         }
     }
-
-    private void Patrol()
+       
+void attack(GameObject Player){
+    timer += Time.deltaTime;
+    if (timer > delay)
     {
-        Vector2 rayOrigin = transform.position;
-        Vector2 rayDirection = direction == "Right" ? Vector2.right : Vector2.left;
-
-        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, 100, mask);
-
-        if (hit.collider != null && hit.collider.CompareTag("Player"))
+        Shoot(Player);
+        timer -= delay;
+    }
+    Debug.Log("SHOOTING"); 
+    if((transform.position.x - Player.transform.position.x) > 3)
         {
-            Player = hit.collider.gameObject;
-            state = EnemyState.Attack;
-            return;
+            rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
+            spriteRenderer.flipX = false;
+            //Debug.Log("CHASING LEFT" + "Distance is" + (transform.position.x - Player.transform.position.x));
+
         }
-
-        if (direction == "Left" && Vector2.Distance(transform.position, WaypointL) < 0.5f)
+        else if((transform.position.x - Player.transform.position.x) < 3 && (transform.position.x - Player.transform.position.x) > .1)
         {
-            SetDirection("Right");
-            spriteRenderer.flipX = true;
-        }
-        else if (direction == "Right" && Vector2.Distance(transform.position, WaypointR) < 0.5f)
-        {
-            SetDirection("Left");
+            rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
             spriteRenderer.flipX = false;
         }
-    }
-
-    private void Attack(GameObject player)
-    {
-        attackTimer += Time.deltaTime;
-        if (attackTimer >= attackDelay)
+    if( (Player.transform.position.x - transform.position.x) > 3)
         {
-            Shoot(player);
-            attackTimer = 0f;
+            rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
+            spriteRenderer.flipX = true;
+        }
+        else if((Player.transform.position.x - transform.position.x) < 3 && ((Player.transform.position.x - transform.position.x) > 0))
+        {
+            rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
+            spriteRenderer.flipX = true;
+        }
+}
+
+void Shoot(GameObject Player)
+    {
+
+        // Instantiate the projectile at the shoot point
+        GameObject projectile = Instantiate(projectilePrefab, shootPoint.position, Quaternion.identity);
+
+        // Calculate direction to the target
+        Vector2 direction = (Player.transform.position - shootPoint.position).normalized;
+
+        // Get the Rigidbody2D of the projectile
+        Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
+
+        if (rb != null)
+        {
+            // Set the projectile's velocity toward the target
+            rb.linearVelocity = direction * projectileSpeed;
         }
 
-        float distance = player.transform.position.x - transform.position.x;
+        // Rotate the projectile to face the target (optional)
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        projectile.transform.rotation = Quaternion.Euler(0f, 0f, angle);
+        Debug.Log("angle is " + angle);
+    }
+void patrol(){
+     Vector2 rayOrigin = transform.position;
+        Vector2 rayDirection = Vector2.right;
 
-        if (Mathf.Abs(distance) > 3)
+        // Set the ray direction based on the `Direction` variable
+        if (Direction == "Right")
         {
-            rb.linearVelocity = new Vector2(Mathf.Sign(distance) * speed, rb.linearVelocity.y);
+            rayDirection = Vector2.right;
+        }
+        else if (Direction == "Left")
+        {
+            rayDirection = Vector2.left;
+        }
+
+        // Perform the raycast
+        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, 100, mask);
+
+        if (hit.collider != null) // Check if anything was hit
+        {
+            if (hit.collider.CompareTag("Player")) // Check if the first hit object is a player
+            {
+                Debug.Log("HIT PLAYER");
+                Player = hit.collider.gameObject;
+                state = "Attack";
+                // Add logic for detecting the player here
+            }
+            else
+            {
+                Debug.Log("First object hit is not a player, it is: " + hit.collider.gameObject.name);
+            }
         }
         else
         {
-            rb.linearVelocity = Vector2.zero; // Stop if within a close range
+            Debug.Log("No objects hit");
         }
-    }
-
-    private void Shoot(GameObject player)
-    {
-        GameObject projectile = Instantiate(projectilePrefab, shootPoint.position, Quaternion.identity);
-        Vector2 direction = (player.transform.position - shootPoint.position).normalized;
-
-        Rigidbody2D projectileRb = projectile.GetComponent<Rigidbody2D>();
-        if (projectileRb != null)
+        
+        if(Direction == "Left" && Vector2.Distance(transform.position, WaypointL) < 0.5)
         {
-            projectileRb.linearVelocity = direction * projectileSpeed;
+            Direction = "Right";
+
         }
-
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        projectile.transform.rotation = Quaternion.Euler(0f, 0f, angle);
-    }
-
-    private void SetDirection(string newDirection)
-    {
-        direction = newDirection;
-        rb.linearVelocity = new Vector2((direction == "Right" ? 1 : -1) * speed, rb.linearVelocity.y);
-        if(direction == "Left")
+        if(Direction == "Right" && Vector2.Distance(transform.position, WaypointR) < 0.5)
         {
+            Direction = "Left";
+            
+        }
+        if(Direction == "Right" )
+        {
+            rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);  
+            spriteRenderer.flipX = true;    
+        }
+        if(Direction == "Left" )
+        {
+            rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
             spriteRenderer.flipX = false;
         }
-        else if(direction == "Right")
+        
+        if(state == "Attack")
         {
-            spriteRenderer.flipX = true;
+            attack(Player);
         }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.name == "Melee Box(Clone)")
-        {
-            enemyHealth--;
-
-            Vector2 knockbackDirection = (transform.position.x > collision.transform.position.x)
-                ? new Vector2(3.5f, 0.75f)
-                : new Vector2(-3.5f, 0.75f);
-
-            StartCoroutine(ApplyKnockback(knockbackDirection));
-
-            if (enemyHealth <= 0)
-            {
-                Destroy(gameObject, 0.125f);
-            }
-        }
-    }
-
-    private IEnumerator ApplyKnockback(Vector2 knockback)
-    {
-        isKnockedBack = true;
-        rb.linearVelocity = knockback;
-        yield return new WaitForSeconds(0.2f);
-        isKnockedBack = false;
-    }
 }
 
-
+}

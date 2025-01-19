@@ -16,9 +16,10 @@ public class AerialNPC : MonoBehaviour
     public GameObject projectilePrefab; // The projectile prefab to instantiate
     public Transform shootPoint;       // The point from which the projectile is fired
     public float projectileSpeed = 10f;
-    public float delay = 0.2f;
+    public float delay = 1f;
     public float timer;
-    public int enemyHealth = 3;
+    private SpriteRenderer spriteRenderer;
+    public float enemyHealth = 3;
    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -29,6 +30,7 @@ public class AerialNPC : MonoBehaviour
 
         rb = GetComponent<Rigidbody2D>();
         rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         
     }
@@ -52,7 +54,7 @@ void attack(GameObject Player){
         Shoot(Player);
         timer -= delay;
     }
-    Debug.Log("SHOOTING"); 
+    //Debug.Log("SHOOTING"); 
 
 
 
@@ -74,6 +76,20 @@ void Shoot(GameObject Player)
             // Set the projectile's velocity toward the target
             rb.linearVelocity = direction * projectileSpeed;
         }
+        // Determine the shooting direction to flip the sprite
+    SpriteRenderer spriteRenderer = projectile.GetComponent<SpriteRenderer>();
+
+
+        // Flip the sprite horizontally based on the x-direction of the shot
+        if(direction.x > 0)
+        {
+            spriteRenderer.flipX = true;
+        }
+        else if(direction.x < 0)
+        {
+            spriteRenderer.flipX = false;
+        }
+
 
         // Rotate the projectile to face the target (optional)
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -93,11 +109,15 @@ void patrol(){
         }
         if(Direction == "Right" )
         {
-            rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);      
+            rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);  
+            spriteRenderer.flipX = true;  
+ 
         }
         if(Direction == "Left" )
         {
             rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
+            spriteRenderer.flipX = false;
+
         }
 }
 
@@ -127,7 +147,7 @@ void search(){
         {
             if (tempHit.collider.CompareTag("Player")) // Check if the first hit object is a player
             {
-                Debug.Log("HIT PLAYER");
+                //Debug.Log("HIT PLAYER");
                 GameObject Player = tempHit.collider.gameObject;
                 state = "Attack";
                 attack(Player);
@@ -135,12 +155,12 @@ void search(){
             }
             else
             {
-                Debug.Log("First object hit is not a player, it is: " + tempHit.collider.gameObject.name);
+                //Debug.Log("First object hit is not a player, it is: " + tempHit.collider.gameObject.name);
             }
         }
         else
         {
-            Debug.Log("No objects hit");
+            //Debug.Log("No objects hit");
         }
         }
     }
@@ -152,7 +172,7 @@ void search(){
         {
             if (tempHit.collider.CompareTag("Player")) // Check if the first hit object is a player
             {
-                Debug.Log("HIT PLAYER");
+                //Debug.Log("HIT PLAYER");
                 GameObject Player = tempHit.collider.gameObject;
                 state = "Attack";
                 attack(Player);
@@ -160,12 +180,12 @@ void search(){
             }
             else
             {
-                Debug.Log("First object hit is not a player, it is: " + tempHit.collider.gameObject.name);
+                //Debug.Log("First object hit is not a player, it is: " + tempHit.collider.gameObject.name);
             }
         }
         else
         {
-            Debug.Log("No objects hit");
+            //Debug.Log("No objects hit");
         }
         }
     }
