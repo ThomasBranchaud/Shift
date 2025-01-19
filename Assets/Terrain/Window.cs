@@ -8,10 +8,11 @@ public class Window : MonoBehaviour
     void Start()
     {
         this.gameObject.GetComponent<SpriteRenderer>().sprite = futureSprite;
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
     }
 
     void Update(){
-        if (Input.GetKeyDown(KeyCode.F)){
+        if (Input.GetKeyDown(KeyCode.LeftShift)){
             Shift();
         }
     }

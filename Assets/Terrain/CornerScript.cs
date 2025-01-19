@@ -15,6 +15,12 @@ public class Corner : MonoBehaviour
         this.gameObject.GetComponent<SpriteRenderer>().sprite = futureSprite;
     }
 
+    void Update(){
+        if (Input.GetKeyDown(KeyCode.LeftShift)){
+            Shift();
+        }
+    }
+
     public void Shift(){
         if (this.gameObject.GetComponent<SpriteRenderer>().sprite == futureSprite){
             this.gameObject.GetComponent<SpriteRenderer>().sprite = pastSprite;

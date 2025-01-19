@@ -19,7 +19,7 @@ public class Door : MonoBehaviour
     }
 
     void Update(){
-        if (Input.GetKeyDown(KeyCode.F)){
+        if (Input.GetKeyDown(KeyCode.LeftShift)){
             Shift();
         }
     }
@@ -32,9 +32,11 @@ public class Door : MonoBehaviour
             else {
                 this.gameObject.GetComponent<SpriteRenderer>().sprite = futureDoorGround;
             }
+            this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
         }
         else {
             this.gameObject.GetComponent<SpriteRenderer>().sprite = pastDoor;
+            this.gameObject.GetComponent<BoxCollider2D>().enabled = true;
         }
 
     }

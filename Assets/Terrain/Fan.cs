@@ -14,11 +14,11 @@ public class Fan : MonoBehaviour
     }
 
     void Update(){
-        if (Input.GetKeyDown(KeyCode.F)){
+        if (Input.GetKeyDown(KeyCode.LeftShift)){
             Shift();
         }
     }
-
+    
     public void Shift(){
         if (this.gameObject.GetComponent<SpriteRenderer>().sprite == futureSprite){
             this.gameObject.GetComponent<SpriteRenderer>().sprite = pastSprite;

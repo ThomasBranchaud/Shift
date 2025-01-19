@@ -4,6 +4,7 @@ public class Elevator : MonoBehaviour
 {
     public Sprite futureElevator;
     public Sprite pastElevator;
+    public bool startElevator = true;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -12,7 +13,7 @@ public class Elevator : MonoBehaviour
     }
 
     void Update(){
-        if (Input.GetKeyDown(KeyCode.F)){
+        if (Input.GetKeyDown(KeyCode.LeftShift)){
             Shift();
         }
     }
@@ -20,11 +21,15 @@ public class Elevator : MonoBehaviour
     void Shift(){
         if (this.gameObject.GetComponent<SpriteRenderer>().sprite == futureElevator){
             this.gameObject.GetComponent<SpriteRenderer>().sprite = pastElevator;
-            this.gameObject.GetComponent<BoxCollider2D>().enabled = true;
+            if (startElevator == false){
+                this.gameObject.GetComponent<BoxCollider2D>().enabled = true;
+            }
         }
         else {
             this.gameObject.GetComponent<SpriteRenderer>().sprite = futureElevator;
-            this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+            if (startElevator == false){
+                this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+            }
         }
     }
 }
