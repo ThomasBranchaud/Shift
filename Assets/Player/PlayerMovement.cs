@@ -79,6 +79,10 @@ public class PlayerMovement : MonoBehaviour
             Physics2D.IgnoreLayerCollision(PLAYER_LAYER, PLATFORM_LAYER, true);
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D collision){
+        Debug.Log(collision.gameObject.name);
+    }
     
 }
 

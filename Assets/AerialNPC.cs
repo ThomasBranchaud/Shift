@@ -13,6 +13,11 @@ public class AerialNPC : MonoBehaviour
     public LayerMask mask;
     public string state;
     public GameObject Player;
+    public GameObject projectilePrefab; // The projectile prefab to instantiate
+    public Transform shootPoint;       // The point from which the projectile is fired
+    public float projectileSpeed = 10f;
+    public float delay = 0.2f;
+    public float timer;
    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -40,8 +45,40 @@ public class AerialNPC : MonoBehaviour
     }
        
 void attack(GameObject Player){
+    timer += Time.deltaTime;
+    if (timer > delay)
+    {
+        Shoot(Player);
+        timer -= delay;
+    }
+    Debug.Log("SHOOTING"); 
+
+
 
 }
+void Shoot(GameObject Player)
+    {
+
+        // Instantiate the projectile at the shoot point
+        GameObject projectile = Instantiate(projectilePrefab, shootPoint.position, Quaternion.identity);
+
+        // Calculate direction to the target
+        Vector2 direction = (Player.transform.position - shootPoint.position).normalized;
+
+        // Get the Rigidbody2D of the projectile
+        Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
+
+        if (rb != null)
+        {
+            // Set the projectile's velocity toward the target
+            rb.linearVelocity = direction * projectileSpeed;
+        }
+
+        // Rotate the projectile to face the target (optional)
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        projectile.transform.rotation = Quaternion.Euler(0f, 0f, angle);
+        Debug.Log("angle is " + angle);
+    }
 void patrol(){
      if(Direction == "Left" && Vector2.Distance(transform.position, WaypointL) < 0.5)
         {

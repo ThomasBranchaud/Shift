@@ -49,20 +49,20 @@ void Attack(GameObject Player )
     if((transform.position.x - Player.transform.position.x) > 1)
         {
             rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
-            Debug.Log("CHASING LEFT" + "Distance is" + (transform.position.x - Player.transform.position.x));
+            //Debug.Log("CHASING LEFT" + "Distance is" + (transform.position.x - Player.transform.position.x));
 
         }
     if( (Player.transform.position.x - transform.position.x) > 1)
         {
             rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
-            Debug.Log("CHASING RIGHT" + "Distance is" + (Player.transform.position.x - transform.position.x));
+            //Debug.Log("CHASING RIGHT" + "Distance is" + (Player.transform.position.x - transform.position.x));
             
             
         }
     else if(Vector2.Distance(transform.position,Player.transform.position)<1 && Vector2.Distance(transform.position,Player.transform.position)>-1)
     {
     
-        Debug.Log("ATTACKKKKKK");
+       // Debug.Log("ATTACKKKKKK");
     }
     
     
