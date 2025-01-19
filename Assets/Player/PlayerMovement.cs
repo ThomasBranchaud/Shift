@@ -27,12 +27,14 @@ public class PlayerMovement : MonoBehaviour
     public GameObject projectilePrefab; // The projectile prefab to instantiate
     public Transform shootPoint;       // The point from which the projectile is fired
     public float projectileSpeed = 10f;
+    private SpriteRenderer spriteRenderer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        playerHealth = 10;
+        playerHealth = 5;
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -45,9 +47,11 @@ public class PlayerMovement : MonoBehaviour
         if(Input.GetKey(KeyCode.A)){
             rb.linearVelocity = new Vector2(-moveSpeed, rb.linearVelocity.y);
             facing = "left";
+            spriteRenderer.flipX = true;
         }else if(Input.GetKey(KeyCode.D)){
             rb.linearVelocity = new Vector2(moveSpeed, rb.linearVelocity.y);
             facing = "right";
+            spriteRenderer.flipX = false;
         }else {
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
         }
