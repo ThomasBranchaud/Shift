@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 05ecc812715fbbf4ba51357b75dc2e2e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b9346d168f1824e43a6326f6e234db29, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -101,10 +101,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FutureSprites:
-  - {fileID: 21300000, guid: 5c25f932ac579394582223ee2ed154a3, type: 3}
-  - {fileID: 21300000, guid: c5ab1ccd27200ed4184543c9c9bfb08b, type: 3}
+  - {fileID: 21300000, guid: b9346d168f1824e43a6326f6e234db29, type: 3}
+  - {fileID: 21300000, guid: 9e7da13ab8f0c5945b6c14c38af13c48, type: 3}
   PastSprites:
-  - {fileID: 21300000, guid: 05ecc812715fbbf4ba51357b75dc2e2e, type: 3}
-  - {fileID: 21300000, guid: 18baa1e6262c14c4a8086b37170e9362, type: 3}
+  - {fileID: 21300000, guid: dc0b6f8089a10364da17d9139371781d, type: 3}
+  - {fileID: 21300000, guid: 1075f06e530ca8440a771247974451c6, type: 3}
   futureSprite: {fileID: 0}
   pastSprite: {fileID: 0}

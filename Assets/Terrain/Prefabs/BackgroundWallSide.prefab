@@ -105,6 +105,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 36ff065f067354343a0d7d86b8997425, type: 3}
   - {fileID: 7241291855461633364, guid: 5fe4213d89f22b443848bba10175a610, type: 3}
   PastSprites:
-  - {fileID: 5179937641006656558, guid: dd824166f1ec6b947b60112a9d37c89d, type: 3}
+  - {fileID: 21300000, guid: 0cb36135cf4a0d94387a0d32ddb7ae2d, type: 3}
   futureSprite: {fileID: 0}
   pastSprite: {fileID: 0}

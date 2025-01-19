@@ -1,139 +1,158 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class GroundShootEnemy : MonoBehaviour
-{
-    public Vector2 WaypointL;
+public class groundShootEnemy : MonoBehaviour
+{   public Vector2 WaypointL;
     public Vector2 WaypointR;
-    public float speed;
-    public GameObject Player;
-    public GameObject projectilePrefab;
-    public Transform shootPoint;
-    public float projectileSpeed = 10f;
-    public float attackDelay = 0.2f;
-    public int enemyHealth = 3;
-    public LayerMask mask;
-
+    public string Direction;
     private Rigidbody2D rb;
-    private EnemyState state = EnemyState.Patrol;
-    private float attackTimer = 0f;
-    private bool isKnockedBack = false;
-    private string direction = "Right";
-
-    private enum EnemyState { Patrol, Attack }
-
+    private Transform currentPoint;
+    public float speed;
+    public LayerMask mask;
+    public string state;
+    public GameObject Player;
+    public GameObject projectilePrefab; // The projectile prefab to instantiate
+    public Transform shootPoint;       // The point from which the projectile is fired
+    public float projectileSpeed = 10f;
+    public float delay = 0.2f;
+    public float timer;
+   
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        state = "Patrol";
+        mask = LayerMask.GetMask("Player","Ground");
+        Direction = "Right";
+
         rb = GetComponent<Rigidbody2D>();
-        mask = LayerMask.GetMask("Player", "Ground");
-        SetDirection(direction);
+        rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
+
+        
     }
 
+    // Update is called once per frame
     void Update()
     {
-        if (isKnockedBack) return;
+        if(state == "Patrol"){
+            patrol();
 
-        switch (state)
-        {
-            case EnemyState.Patrol:
-                Patrol();
-                break;
-            case EnemyState.Attack:
-                Attack(Player);
-                break;
+        }else if(state == "Attack"){
+
+            attack(Player);
         }
     }
-
-    private void Patrol()
+       
+void attack(GameObject Player){
+    timer += Time.deltaTime;
+    if (timer > delay)
     {
-        Vector2 rayOrigin = transform.position;
-        Vector2 rayDirection = direction == "Right" ? Vector2.right : Vector2.left;
+        Shoot(Player);
+        timer -= delay;
+    }
+    Debug.Log("SHOOTING"); 
+    if((transform.position.x - Player.transform.position.x) > 3)
+        {
+            rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
+            //Debug.Log("CHASING LEFT" + "Distance is" + (transform.position.x - Player.transform.position.x));
 
+        }
+        else if((transform.position.x - Player.transform.position.x) < 3 && (transform.position.x - Player.transform.position.x) > .1)
+        {
+            rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
+        }
+    if( (Player.transform.position.x - transform.position.x) > 3)
+        {
+            rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
+        }
+        else if((Player.transform.position.x - transform.position.x) < 3 && ((Player.transform.position.x - transform.position.x) > 0))
+        {
+            rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
+        }
+}
+
+void Shoot(GameObject Player)
+    {
+
+        // Instantiate the projectile at the shoot point
+        GameObject projectile = Instantiate(projectilePrefab, shootPoint.position, Quaternion.identity);
+
+        // Calculate direction to the target
+        Vector2 direction = (Player.transform.position - shootPoint.position).normalized;
+
+        // Get the Rigidbody2D of the projectile
+        Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
+
+        if (rb != null)
+        {
+            // Set the projectile's velocity toward the target
+            rb.linearVelocity = direction * projectileSpeed;
+        }
+
+        // Rotate the projectile to face the target (optional)
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        projectile.transform.rotation = Quaternion.Euler(0f, 0f, angle);
+        Debug.Log("angle is " + angle);
+    }
+void patrol(){
+     Vector2 rayOrigin = transform.position;
+        Vector2 rayDirection = Vector2.right;
+
+        // Set the ray direction based on the `Direction` variable
+        if (Direction == "Right")
+        {
+            rayDirection = Vector2.right;
+        }
+        else if (Direction == "Left")
+        {
+            rayDirection = Vector2.left;
+        }
+
+        // Perform the raycast
         RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, 100, mask);
 
-        if (hit.collider != null && hit.collider.CompareTag("Player"))
+        if (hit.collider != null) // Check if anything was hit
         {
-            Player = hit.collider.gameObject;
-            state = EnemyState.Attack;
-            return;
-        }
-
-        if (direction == "Left" && Vector2.Distance(transform.position, WaypointL) < 0.5f)
-        {
-            SetDirection("Right");
-        }
-        else if (direction == "Right" && Vector2.Distance(transform.position, WaypointR) < 0.5f)
-        {
-            SetDirection("Left");
-        }
-    }
-
-    private void Attack(GameObject player)
-    {
-        attackTimer += Time.deltaTime;
-        if (attackTimer >= attackDelay)
-        {
-            Shoot(player);
-            attackTimer = 0f;
-        }
-
-        float distance = player.transform.position.x - transform.position.x;
-
-        if (Mathf.Abs(distance) > 3)
-        {
-            rb.linearVelocity = new Vector2(Mathf.Sign(distance) * speed, rb.linearVelocity.y);
+            if (hit.collider.CompareTag("Player")) // Check if the first hit object is a player
+            {
+                Debug.Log("HIT PLAYER");
+                Player = hit.collider.gameObject;
+                state = "Attack";
+                // Add logic for detecting the player here
+            }
+            else
+            {
+                Debug.Log("First object hit is not a player, it is: " + hit.collider.gameObject.name);
+            }
         }
         else
         {
-            rb.linearVelocity = Vector2.zero; // Stop if within a close range
+            Debug.Log("No objects hit");
         }
-    }
-
-    private void Shoot(GameObject player)
-    {
-        GameObject projectile = Instantiate(projectilePrefab, shootPoint.position, Quaternion.identity);
-        Vector2 direction = (player.transform.position - shootPoint.position).normalized;
-
-        Rigidbody2D projectileRb = projectile.GetComponent<Rigidbody2D>();
-        if (projectileRb != null)
+        
+        if(Direction == "Left" && Vector2.Distance(transform.position, WaypointL) < 0.5)
         {
-            projectileRb.linearVelocity = direction * projectileSpeed;
+            Direction = "Right";
+
         }
-
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        projectile.transform.rotation = Quaternion.Euler(0f, 0f, angle);
-    }
-
-    private void SetDirection(string newDirection)
-    {
-        direction = newDirection;
-        rb.linearVelocity = new Vector2((direction == "Right" ? 1 : -1) * speed, rb.linearVelocity.y);
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.name == "Melee Box(Clone)")
+        if(Direction == "Right" && Vector2.Distance(transform.position, WaypointR) < 0.5)
         {
-            enemyHealth--;
-
-            Vector2 knockbackDirection = (transform.position.x > collision.transform.position.x)
-                ? new Vector2(3.5f, 0.75f)
-                : new Vector2(-3.5f, 0.75f);
-
-            StartCoroutine(ApplyKnockback(knockbackDirection));
-
-            if (enemyHealth <= 0)
-            {
-                Destroy(gameObject, 0.125f);
-            }
+            Direction = "Left";
+            
         }
-    }
+        if(Direction == "Right" )
+        {
+            rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);      
+        }
+        if(Direction == "Left" )
+        {
+            rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
+        }
+        
+        if(state == "Attack")
+        {
+            attack(Player);
+        }
+}
 
-    private IEnumerator ApplyKnockback(Vector2 knockback)
-    {
-        isKnockedBack = true;
-        rb.linearVelocity = knockback;
-        yield return new WaitForSeconds(0.2f);
-        isKnockedBack = false;
-    }
 }
