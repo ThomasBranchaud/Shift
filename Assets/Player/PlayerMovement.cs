@@ -52,7 +52,6 @@ public class PlayerMovement : MonoBehaviour
         }
         
         if (fanState != null){
-            UnityEngine.Debug.Log("Not Stopping");
             switch (fanState){
                 case "Right":
                     rb.linearVelocity = new Vector2(rb.linearVelocity.x + 0.5f, rb.linearVelocity.y);

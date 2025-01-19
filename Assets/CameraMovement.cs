@@ -11,7 +11,7 @@ public class CameraMovement : MonoBehaviour
 
     void Start()
     {
-
+        player = gameObject.GetComponent<GameManager>().player;
     }
 
     void LateUpdate()
