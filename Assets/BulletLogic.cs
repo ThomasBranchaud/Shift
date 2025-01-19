@@ -26,4 +26,10 @@ public class BulletLogic : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+
+    void OnTriggerEnter2D(Collider2D collision){
+        if(!immune){
+            Destroy(this.gameObject);
+        }
+    }
 }

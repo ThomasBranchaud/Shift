@@ -5,6 +5,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
     public float jumpHeight = 5f;
+    public int playerHealth;
 
     Rigidbody2D rb;
 
@@ -27,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        playerHealth = 10;
     }
 
     // Update is called once per frame
@@ -94,6 +96,9 @@ public class PlayerMovement : MonoBehaviour
                 fanState = "Left";
                 break;
         }
+        if(other.gameObject.name == "Projectile(Clone)"){
+            damagePlayer(1);
+        }
     }
 
     public void OnTriggerExit2D(Collider2D other){
@@ -114,6 +119,21 @@ public class PlayerMovement : MonoBehaviour
     
 
     void rangedAttack(){}
+
+    void damagePlayer(int damageAmount){
+        playerHealth -= damageAmount;
+        Debug.Log("Current HP: " + playerHealth);
+        if(playerHealth <= 0){
+            Debug.Log("PLAYER DEATH");
+        }
+    }
+
+
+    void OnCollisionEnter2D(Collision2D collision){
+        if(collision.gameObject.layer == 8 || collision.gameObject.layer == 9){
+            damagePlayer(2);
+        }
+    }
 
 }
 
