@@ -46,7 +46,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -170,6 +170,11 @@ MonoBehaviour:
   PlayerPrefab: {fileID: 2133277223898971651, guid: ad233dd519566f046842ab01fe86408b, type: 3}
   player: {fileID: 0}
   Objects: []
+  EnemyPrefabs:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   TerrainPrefabs:
   - {fileID: 0}
   - {fileID: 7073887676809871838, guid: d6ae024f95318964b8d99e0370bd90a9, type: 3}

@@ -105,6 +105,36 @@ public class GameManager : MonoBehaviour
         else if (room == 16 && needPlayerStart == false){
             newRoom.GetComponent<Elevator>().startElevator = false;
         }
+        switch(room){
+            case 4:
+                GameObject enemy1 = Instantiate(EnemyPrefabs[0]);
+                enemy1.transform.position = new Vector2(offXAmount, 1.0f - offYAmount);
+                enemy1.GetComponent<npcMovement>().WaypointL = new Vector2(offXAmount - 2.5f, 1.0f - offYAmount);
+                enemy1.GetComponent<npcMovement>().WaypointR = new Vector2(offXAmount + 2.5f, 1.0f - offYAmount);
+                enemy1.GetComponent<npcMovement>().Direction = "Right";
+                GameObject enemy2 = Instantiate(EnemyPrefabs[1]);
+                enemy2.transform.position = new Vector2(offXAmount, 1.0f - offYAmount);
+                enemy2.GetComponent<npcMovement>().WaypointL = new Vector2(offXAmount - 2.5f, 1.0f - offYAmount);
+                enemy2.GetComponent<npcMovement>().WaypointR = new Vector2(offXAmount + 2.5f, 1.0f - offYAmount);
+                enemy1.GetComponent<npcMovement>().Direction = "Left";
+                break;
+            case 13:
+                GameObject enemy3 = Instantiate(EnemyPrefabs[2]);
+                enemy3.transform.position = new Vector2(offXAmount, 1.0f - offYAmount);
+                enemy3.GetComponent<npcMovement>().WaypointL = new Vector2(offXAmount - 2.5f, 1.0f - offYAmount);
+                enemy3.GetComponent<npcMovement>().WaypointR = new Vector2(offXAmount + 2.5f, 1.0f - offYAmount);
+                enemy3.GetComponent<npcMovement>().Direction = "Right";
+                break;
+            case 5:
+                GameObject enemy4 = Instantiate(EnemyPrefabs[3]);
+                enemy4.transform.position = new Vector2(offXAmount, 1.0f - offYAmount);
+                enemy4.GetComponent<npcMovement>().WaypointL = new Vector2(offXAmount - 2.5f, 1.0f - offYAmount);
+                enemy4.GetComponent<npcMovement>().WaypointR = new Vector2(offXAmount + 2.5f, 1.0f - offYAmount);
+                enemy4.GetComponent<npcMovement>().Direction = "Left";
+                break;
+            default:
+                break;
+        }
     }
 
     // World Generation Setups

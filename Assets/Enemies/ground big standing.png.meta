@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      ground big standing_0: 7236668739227213976
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
