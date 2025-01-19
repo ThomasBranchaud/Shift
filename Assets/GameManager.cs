@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -24,8 +25,8 @@ public class GameManager : MonoBehaviour
     }
 
     void Update(){
-        if (Input.GetKeyDown(KeyCode.LeftShift)){
-
+        if (Input.GetKeyDown(KeyCode.R)){
+            SceneManager.LoadScene("StartScene");
         }
     }
 
