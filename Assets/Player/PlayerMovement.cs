@@ -18,11 +18,14 @@ public class PlayerMovement : MonoBehaviour
     
     public string facing;
 
-    public bool inMelee = true;
+    public bool inMelee = false;
 
     public GameObject meleeBox;
 
     public string fanState = null;
+    public GameObject projectilePrefab; // The projectile prefab to instantiate
+    public Transform shootPoint;       // The point from which the projectile is fired
+    public float projectileSpeed = 10f; 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -54,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
         }
         
         if (fanState != null){
-            UnityEngine.Debug.Log("Not Stopping");
+            //UnityEngine.Debug.Log("Not Stopping");
             switch (fanState){
                 case "Right":
                     rb.linearVelocity = new Vector2(rb.linearVelocity.x + 0.5f, rb.linearVelocity.y);
@@ -72,8 +75,10 @@ public class PlayerMovement : MonoBehaviour
 
         if(Input.GetMouseButtonDown(0)){
             if(inMelee){
+                Debug.Log("melee attacking");
                 meleeAttack();
             } else {
+                Debug.Log("range attacking");
                 rangedAttack();
             }
         }
@@ -118,7 +123,29 @@ public class PlayerMovement : MonoBehaviour
 
     
 
-    void rangedAttack(){}
+    void rangedAttack(){
+        // Get the mouse position in world space
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        // Calculate direction to the mouse position
+        Vector2 direction = (mousePosition - shootPoint.position).normalized;
+
+        // Instantiate the projectile at the shoot point
+        GameObject projectile = Instantiate(projectilePrefab, shootPoint.position, Quaternion.identity);
+
+        // Get the Rigidbody2D of the projectile
+        Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
+
+        if (rb != null)
+        {
+            // Set the projectile's velocity toward the mouse position
+            rb.linearVelocity = direction * projectileSpeed;
+        }
+
+        // Rotate the projectile to face the same direction
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        projectile.transform.rotation = Quaternion.Euler(0f, 0f, angle);
+    }
 
     void damagePlayer(int damageAmount){
         playerHealth -= damageAmount;

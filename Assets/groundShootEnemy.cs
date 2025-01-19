@@ -19,6 +19,7 @@ public class GroundShootEnemy : MonoBehaviour
     private float attackTimer = 0f;
     private bool isKnockedBack = false;
     private string direction = "Right";
+    private SpriteRenderer spriteRenderer;
 
     private enum EnemyState { Patrol, Attack }
 
@@ -27,6 +28,7 @@ public class GroundShootEnemy : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         mask = LayerMask.GetMask("Player", "Ground");
         SetDirection(direction);
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -61,10 +63,12 @@ public class GroundShootEnemy : MonoBehaviour
         if (direction == "Left" && Vector2.Distance(transform.position, WaypointL) < 0.5f)
         {
             SetDirection("Right");
+            spriteRenderer.flipX = true;
         }
         else if (direction == "Right" && Vector2.Distance(transform.position, WaypointR) < 0.5f)
         {
             SetDirection("Left");
+            spriteRenderer.flipX = false;
         }
     }
 
@@ -108,6 +112,14 @@ public class GroundShootEnemy : MonoBehaviour
     {
         direction = newDirection;
         rb.linearVelocity = new Vector2((direction == "Right" ? 1 : -1) * speed, rb.linearVelocity.y);
+        if(direction == "Left")
+        {
+            spriteRenderer.flipX = false;
+        }
+        else if(direction == "Right")
+        {
+            spriteRenderer.flipX = true;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
