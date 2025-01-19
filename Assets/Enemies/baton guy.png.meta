@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      baton guy_0: -3735356920974940005
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
