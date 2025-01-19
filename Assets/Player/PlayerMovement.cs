@@ -1,11 +1,15 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
     public float jumpHeight = 5f;
     public int playerHealth;
+    public int maxHearts = 5;
+    public Sprite fullHeart;
+    public Image[] heartImages;
 
     Rigidbody2D rb;
 
@@ -28,7 +32,8 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        playerHealth = 10;
+        playerHealth = maxHearts;
+        UpdateHearts();
     }
 
     // Update is called once per frame
@@ -123,6 +128,7 @@ public class PlayerMovement : MonoBehaviour
     void damagePlayer(int damageAmount){
         playerHealth -= damageAmount;
         Debug.Log("Current HP: " + playerHealth);
+        UpdateHearts();
         if(playerHealth <= 0){
             Debug.Log("PLAYER DEATH");
         }
@@ -132,6 +138,17 @@ public class PlayerMovement : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision){
         if(collision.gameObject.layer == 8 || collision.gameObject.layer == 9){
             damagePlayer(2);
+        }
+    }
+
+    void UpdateHearts(){
+        for(int i=0; i<maxHearts; i++){
+            if(i< playerHealth){
+                heartImages[i].enabled = true;
+            }
+            else{
+                heartImages[i].enabled = false;
+            }
         }
     }
 
