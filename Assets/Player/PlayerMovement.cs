@@ -23,9 +23,10 @@ public class PlayerMovement : MonoBehaviour
     public GameObject meleeBox;
 
     public string fanState = null;
+
     public GameObject projectilePrefab; // The projectile prefab to instantiate
     public Transform shootPoint;       // The point from which the projectile is fired
-    public float projectileSpeed = 10f; 
+    public float projectileSpeed = 10f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -57,7 +58,6 @@ public class PlayerMovement : MonoBehaviour
         }
         
         if (fanState != null){
-            //UnityEngine.Debug.Log("Not Stopping");
             switch (fanState){
                 case "Right":
                     rb.linearVelocity = new Vector2(rb.linearVelocity.x + 0.5f, rb.linearVelocity.y);
@@ -75,10 +75,8 @@ public class PlayerMovement : MonoBehaviour
 
         if(Input.GetMouseButtonDown(0)){
             if(inMelee){
-                Debug.Log("melee attacking");
                 meleeAttack();
             } else {
-                Debug.Log("range attacking");
                 rangedAttack();
             }
         }
@@ -101,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
                 fanState = "Left";
                 break;
         }
-        if(other.gameObject.name == "Projectile(Clone)"){
+        if(other.gameObject.name == "EnemyProjectile(Clone)"){
             damagePlayer(1);
         }
     }

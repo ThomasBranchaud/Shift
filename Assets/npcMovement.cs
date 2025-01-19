@@ -117,7 +117,7 @@ void Patrol()
 // Adjusted OnTriggerEnter2D for knockback
 void OnTriggerEnter2D(Collider2D collision)
 {
-    if (collision.gameObject.name == "Melee Box(Clone)")
+    if (collision.gameObject.name == "Melee Box(Clone)" || collision.gameObject.name == "PlayerProjectile(Clone)")
     {
         //Debug.Log("Enemy has been hit!");
         enemyHealth--;

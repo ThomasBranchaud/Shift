@@ -18,7 +18,7 @@ public class AerialNPC : MonoBehaviour
     public float projectileSpeed = 10f;
     public float delay = 0.2f;
     public float timer;
-    private SpriteRenderer spriteRenderer;
+    public int enemyHealth = 3;
    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -29,7 +29,6 @@ public class AerialNPC : MonoBehaviour
 
         rb = GetComponent<Rigidbody2D>();
         rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
-        spriteRenderer = GetComponent<SpriteRenderer>();
 
         
     }
@@ -53,7 +52,7 @@ void attack(GameObject Player){
         Shoot(Player);
         timer -= delay;
     }
-    //Debug.Log("SHOOTING"); 
+    Debug.Log("SHOOTING"); 
 
 
 
@@ -94,13 +93,11 @@ void patrol(){
         }
         if(Direction == "Right" )
         {
-            rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);    
-            spriteRenderer.flipX = true;  
+            rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);      
         }
         if(Direction == "Left" )
         {
             rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
-            spriteRenderer.flipX = false;
         }
 }
 
@@ -130,7 +127,7 @@ void search(){
         {
             if (tempHit.collider.CompareTag("Player")) // Check if the first hit object is a player
             {
-                //Debug.Log("HIT PLAYER");
+                Debug.Log("HIT PLAYER");
                 GameObject Player = tempHit.collider.gameObject;
                 state = "Attack";
                 attack(Player);
@@ -138,12 +135,12 @@ void search(){
             }
             else
             {
-                //Debug.Log("First object hit is not a player, it is: " + tempHit.collider.gameObject.name);
+                Debug.Log("First object hit is not a player, it is: " + tempHit.collider.gameObject.name);
             }
         }
         else
         {
-            //Debug.Log("No objects hit");
+            Debug.Log("No objects hit");
         }
         }
     }
@@ -155,7 +152,7 @@ void search(){
         {
             if (tempHit.collider.CompareTag("Player")) // Check if the first hit object is a player
             {
-                //Debug.Log("HIT PLAYER");
+                Debug.Log("HIT PLAYER");
                 GameObject Player = tempHit.collider.gameObject;
                 state = "Attack";
                 attack(Player);
@@ -163,13 +160,30 @@ void search(){
             }
             else
             {
-                //Debug.Log("First object hit is not a player, it is: " + tempHit.collider.gameObject.name);
+                Debug.Log("First object hit is not a player, it is: " + tempHit.collider.gameObject.name);
             }
         }
         else
         {
-            //Debug.Log("No objects hit");
+            Debug.Log("No objects hit");
         }
         }
     }
+
+
+    void OnTriggerEnter2D(Collider2D collision)
+{
+    if (collision.gameObject.name == "Melee Box(Clone)" || collision.gameObject.name == "PlayerProjectile(Clone)")
+    {
+        Debug.Log("Enemy has been hit!");
+        enemyHealth--;
+
+        if (enemyHealth <= 0)
+        {
+            Debug.Log("Enemy has died!");
+            Destroy(this.gameObject, 0.125f);
+        }
+    }
+}
+
 }
