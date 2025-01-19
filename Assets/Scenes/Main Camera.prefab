@@ -171,10 +171,10 @@ MonoBehaviour:
   player: {fileID: 0}
   Objects: []
   EnemyPrefabs:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 2946241670986868893, guid: f85926b00cd78eb499ce1c349766e795, type: 3}
+  - {fileID: 7780333849362415256, guid: e702fb47ca7e2e84e915766fe17e05b8, type: 3}
+  - {fileID: 4617047493969789335, guid: ba5eee63d9302364ba8bf3ca2f8d8351, type: 3}
+  - {fileID: 4593970231614623823, guid: 6d9f6da9632025f479c1c914fe8f1982, type: 3}
   TerrainPrefabs:
   - {fileID: 0}
   - {fileID: 7073887676809871838, guid: d6ae024f95318964b8d99e0370bd90a9, type: 3}

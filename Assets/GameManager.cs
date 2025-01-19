@@ -116,24 +116,24 @@ public class GameManager : MonoBehaviour
                 enemy2.transform.position = new Vector2(offXAmount, 1.0f - offYAmount);
                 enemy2.GetComponent<npcMovement>().WaypointL = new Vector2(offXAmount - 2.5f, 1.0f - offYAmount);
                 enemy2.GetComponent<npcMovement>().WaypointR = new Vector2(offXAmount + 2.5f, 1.0f - offYAmount);
-                enemy1.GetComponent<npcMovement>().Direction = "Left";
-                break;
+                enemy2.GetComponent<npcMovement>().Direction = "Left";
+                return;
             case 13:
                 GameObject enemy3 = Instantiate(EnemyPrefabs[2]);
                 enemy3.transform.position = new Vector2(offXAmount, 1.0f - offYAmount);
-                enemy3.GetComponent<npcMovement>().WaypointL = new Vector2(offXAmount - 2.5f, 1.0f - offYAmount);
-                enemy3.GetComponent<npcMovement>().WaypointR = new Vector2(offXAmount + 2.5f, 1.0f - offYAmount);
-                enemy3.GetComponent<npcMovement>().Direction = "Right";
-                break;
+                enemy3.GetComponent<AerialNPC>().WaypointL = new Vector2(offXAmount - 2.5f, 1.0f - offYAmount);
+                enemy3.GetComponent<AerialNPC>().WaypointR = new Vector2(offXAmount + 2.5f, 1.0f - offYAmount);
+                enemy3.GetComponent<AerialNPC>().Direction = "Right";
+                return;
             case 5:
                 GameObject enemy4 = Instantiate(EnemyPrefabs[3]);
                 enemy4.transform.position = new Vector2(offXAmount, 1.0f - offYAmount);
-                enemy4.GetComponent<npcMovement>().WaypointL = new Vector2(offXAmount - 2.5f, 1.0f - offYAmount);
-                enemy4.GetComponent<npcMovement>().WaypointR = new Vector2(offXAmount + 2.5f, 1.0f - offYAmount);
-                enemy4.GetComponent<npcMovement>().Direction = "Left";
-                break;
+                enemy4.GetComponent<groundShootEnemy>().WaypointL = new Vector2(offXAmount - 2.5f, 1.0f - offYAmount);
+                enemy4.GetComponent<groundShootEnemy>().WaypointR = new Vector2(offXAmount + 2.5f, 1.0f - offYAmount);
+                enemy4.GetComponent<groundShootEnemy>().Direction = "Left";
+                return;
             default:
-                break;
+                return;
         }
     }
 

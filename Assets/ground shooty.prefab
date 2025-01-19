@@ -111,7 +111,7 @@ MonoBehaviour:
     m_Bits: 0
   state: 
   Player: {fileID: 0}
-  projectilePrefab: {fileID: 0}
+  projectilePrefab: {fileID: 7745238092228452549, guid: 57286332c4bd1244dbf5d17ef5f49ac2, type: 3}
   shootPoint: {fileID: 3407538975198784593}
   projectileSpeed: 10
   delay: 0.2
