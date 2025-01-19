@@ -15,6 +15,7 @@ public class npcMovement : MonoBehaviour
     private GameObject Player;
     public float enemyHealth;
     private bool isKnockedBack = false;
+    private SpriteRenderer spriteRenderer;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -25,6 +26,7 @@ public class npcMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
         state = "Patrol";
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         
     }
@@ -54,12 +56,14 @@ void Attack(GameObject Player )
     if((transform.position.x - Player.transform.position.x) > 1)
         {
             rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
+            spriteRenderer.flipX = false;
             //Debug.Log("CHASING LEFT" + "Distance is" + (transform.position.x - Player.transform.position.x));
 
         }
     if( (Player.transform.position.x - transform.position.x) > 1)
         {
             rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
+            spriteRenderer.flipX = true;
             //Debug.Log("CHASING RIGHT" + "Distance is" + (Player.transform.position.x - transform.position.x));
             
             
@@ -88,20 +92,24 @@ void Patrol()
     if (Direction == "Left" && Vector2.Distance(transform.position, WaypointL) < 0.5)
     {
         Direction = "Right";
+        spriteRenderer.flipX = !spriteRenderer.flipX;
     }
     else if (Direction == "Right" && Vector2.Distance(transform.position, WaypointR) < 0.5)
     {
         Direction = "Left";
+        spriteRenderer.flipX = !spriteRenderer.flipX;
     }
 
     // Set velocity based on direction only if not knocked back
     if (Direction == "Right")
     {
         rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
+
     }
     else if (Direction == "Left")
     {
         rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
+
     }
 }
 
@@ -111,7 +119,7 @@ void OnTriggerEnter2D(Collider2D collision)
 {
     if (collision.gameObject.name == "Melee Box(Clone)" || collision.gameObject.name == "PlayerProjectile(Clone)")
     {
-        Debug.Log("Enemy has been hit!");
+        //Debug.Log("Enemy has been hit!");
         enemyHealth--;
 
         float enemyX = transform.position.x;
@@ -124,7 +132,7 @@ void OnTriggerEnter2D(Collider2D collision)
 
         if (enemyHealth <= 0)
         {
-            Debug.Log("Enemy has died!");
+            //Debug.Log("Enemy has died!");
             Destroy(this.gameObject, 0.125f);
         }
     }
