@@ -35,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
         playerHealth = 10;
     }
 
+    int atkCd = 0;
     // Update is called once per frame
     void Update()
     {
@@ -56,6 +57,10 @@ public class PlayerMovement : MonoBehaviour
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpHeight);
             grounded = false;
         }
+
+        if(Input.GetKeyDown(KeyCode.LeftShift)){
+            shift();
+        }
         
         if (fanState != null){
             switch (fanState){
@@ -73,12 +78,16 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        if(Input.GetMouseButtonDown(0)){
+        if(Input.GetMouseButtonDown(0) && atkCd == 0){
             if(inMelee){
                 meleeAttack();
             } else {
                 rangedAttack();
             }
+            atkCd = 21;
+        }
+        if(atkCd > 0){
+            atkCd --;
         }
     }
 
@@ -155,9 +164,15 @@ public class PlayerMovement : MonoBehaviour
 
 
     void OnCollisionEnter2D(Collision2D collision){
-        if(collision.gameObject.layer == 8 || collision.gameObject.layer == 9){
+        if(collision.gameObject.layer == 8 || collision.gameObject.layer == 13){
+            damagePlayer(1);
+        }else if(collision.gameObject.layer == 9){
             damagePlayer(2);
         }
+    }
+
+    void shift(){
+        inMelee = !inMelee;
     }
 
 }

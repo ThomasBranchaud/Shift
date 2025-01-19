@@ -15,8 +15,9 @@ public class groundShootEnemy : MonoBehaviour
     public GameObject projectilePrefab; // The projectile prefab to instantiate
     public Transform shootPoint;       // The point from which the projectile is fired
     public float projectileSpeed = 10f;
-    public float delay = 0.2f;
+    public float delay = 1f;
     public float timer;
+    public int enemyHealth = 3;
    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -50,7 +51,6 @@ void attack(GameObject Player){
         Shoot(Player);
         timer -= delay;
     }
-    Debug.Log("SHOOTING"); 
     if((transform.position.x - Player.transform.position.x) > 3)
         {
             rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
@@ -92,7 +92,6 @@ void Shoot(GameObject Player)
         // Rotate the projectile to face the target (optional)
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         projectile.transform.rotation = Quaternion.Euler(0f, 0f, angle);
-        Debug.Log("angle is " + angle);
     }
 void patrol(){
      Vector2 rayOrigin = transform.position;
@@ -115,19 +114,18 @@ void patrol(){
         {
             if (hit.collider.CompareTag("Player")) // Check if the first hit object is a player
             {
-                Debug.Log("HIT PLAYER");
+                // Debug.Log("HIT PLAYER");
                 Player = hit.collider.gameObject;
                 state = "Attack";
                 // Add logic for detecting the player here
             }
             else
             {
-                Debug.Log("First object hit is not a player, it is: " + hit.collider.gameObject.name);
+                // Debug.Log("First object hit is not a player, it is: " + hit.collider.gameObject.name);
             }
         }
         else
         {
-            Debug.Log("No objects hit");
         }
         
         if(Direction == "Left" && Vector2.Distance(transform.position, WaypointL) < 0.5)
@@ -153,6 +151,22 @@ void patrol(){
         {
             attack(Player);
         }
+}
+
+void OnTriggerEnter2D(Collider2D collision)
+{
+        Debug.Log("Enemy has been hit by: " + collision.gameObject.name);
+
+    if (collision.gameObject.name == "Melee Box(Clone)" || collision.gameObject.name == "PlayerProjectile(Clone)")
+    {
+        enemyHealth--;
+
+        if (enemyHealth <= 0)
+        {
+            Debug.Log("Enemy has died!");
+            Destroy(this.gameObject, 0.125f);
+        }
+    }
 }
 
 }

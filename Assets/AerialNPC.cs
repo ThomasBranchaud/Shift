@@ -16,7 +16,7 @@ public class AerialNPC : MonoBehaviour
     public GameObject projectilePrefab; // The projectile prefab to instantiate
     public Transform shootPoint;       // The point from which the projectile is fired
     public float projectileSpeed = 10f;
-    public float delay = 0.2f;
+    public float delay = 1f;
     public float timer;
     public int enemyHealth = 3;
    
@@ -52,7 +52,6 @@ void attack(GameObject Player){
         Shoot(Player);
         timer -= delay;
     }
-    Debug.Log("SHOOTING"); 
 
 
 
@@ -127,7 +126,6 @@ void search(){
         {
             if (tempHit.collider.CompareTag("Player")) // Check if the first hit object is a player
             {
-                Debug.Log("HIT PLAYER");
                 GameObject Player = tempHit.collider.gameObject;
                 state = "Attack";
                 attack(Player);
@@ -135,12 +133,10 @@ void search(){
             }
             else
             {
-                Debug.Log("First object hit is not a player, it is: " + tempHit.collider.gameObject.name);
             }
         }
         else
         {
-            Debug.Log("No objects hit");
         }
         }
     }
@@ -152,7 +148,6 @@ void search(){
         {
             if (tempHit.collider.CompareTag("Player")) // Check if the first hit object is a player
             {
-                Debug.Log("HIT PLAYER");
                 GameObject Player = tempHit.collider.gameObject;
                 state = "Attack";
                 attack(Player);
@@ -160,12 +155,10 @@ void search(){
             }
             else
             {
-                Debug.Log("First object hit is not a player, it is: " + tempHit.collider.gameObject.name);
             }
         }
         else
         {
-            Debug.Log("No objects hit");
         }
         }
     }

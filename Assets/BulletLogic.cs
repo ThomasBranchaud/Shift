@@ -13,7 +13,7 @@ public class BulletLogic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(counter >= 3){
+        if(counter >= 2){
             immune = false;
         }else if(counter >= 120){
             immune = false;
@@ -22,13 +22,19 @@ public class BulletLogic : MonoBehaviour
     }
 
     void OnCollisionEnter2D(Collision2D collision){
-        if(!immune){
+        if(!immune && collision.gameObject.name != "EnemyProjectile(Clone)" && collision.gameObject.name != "PlayerProjectile(Clone)"){
+            Destroy(this.gameObject);
+        }
+        if(collision.gameObject.layer == 6){
             Destroy(this.gameObject);
         }
     }
 
     void OnTriggerEnter2D(Collider2D collision){
-        if(!immune){
+        if(!immune && collision.gameObject.name != "EnemyProjectile(Clone)" && collision.gameObject.name != "PlayerProjectile(Clone)"){
+            Destroy(this.gameObject);
+        }
+        if(collision.gameObject.layer == 6){
             Destroy(this.gameObject);
         }
     }
