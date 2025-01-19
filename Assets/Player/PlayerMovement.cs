@@ -21,6 +21,8 @@ public class PlayerMovement : MonoBehaviour
     private int platformLayerIndex;
     private bool droppingThroughPlatform;
 
+    public string fanState = null;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -53,6 +55,23 @@ public class PlayerMovement : MonoBehaviour
             // StartCoroutine(DropThroughPlatform());
             transform.position = (Vector2)transform.position + new Vector2(0f, -0.6f);
         }
+        if (fanState != null){
+            UnityEngine.Debug.Log("Not Stopping");
+            switch (fanState){
+                case "Right":
+                    rb.linearVelocity = new Vector2(rb.linearVelocity.x + 0.5f, rb.linearVelocity.y);
+                    break;
+                
+                case "Left":
+                    rb.linearVelocity = new Vector2(rb.linearVelocity.x - 0.5f, rb.linearVelocity.y);
+                    break;
+
+                case "Up":
+                    rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y + 0.2f);
+                    break;
+            }
+        }
+
         
     }
 
@@ -84,6 +103,25 @@ public class PlayerMovement : MonoBehaviour
         UnityEngine.Debug.Log("Here");
         if (other.gameObject.CompareTag("Elevator")){
             UnityEngine.Debug.Log("Level End");
+        }
+        switch(other.gameObject.tag){
+            case "FanRight":
+                fanState = "Right";
+                break;
+            
+            case "FanUp":
+                fanState = "Up";
+                break;
+            
+            case "FanLeft":
+                fanState = "Left";
+                break;
+        }
+    }
+
+    public void OnTriggerExit2D(Collider2D other){
+        if (other.gameObject.tag == "FanUp" || other.gameObject.tag == "FanRight" || other.gameObject.tag == "FanLeft"){
+            fanState = null;
         }
     }
     

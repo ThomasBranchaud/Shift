@@ -8,6 +8,7 @@ public class Elevator : MonoBehaviour
     void Start()
     {
         this.gameObject.GetComponent<SpriteRenderer>().sprite = futureElevator;
+        this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
     }
 
     void Update(){
