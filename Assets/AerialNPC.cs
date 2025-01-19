@@ -77,7 +77,7 @@ void Shoot(GameObject Player)
         // Rotate the projectile to face the target (optional)
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         projectile.transform.rotation = Quaternion.Euler(0f, 0f, angle);
-        Debug.Log("angle is " + angle);
+        //Debug.Log("angle is " + angle);
     }
 void patrol(){
      if(Direction == "Left" && Vector2.Distance(transform.position, WaypointL) < 0.5)
